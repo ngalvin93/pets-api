@@ -136,9 +136,20 @@ app.post('/api/owners/:id/pets', function (request, response, next) {
     if (!singleOwner) {
         return response.status(404).send('The query you entered is not valid. Please try again.')
     }
+    const newPet = {
+        id: singleOwner.pets.length + 1,
+        name: request.body.name,
+        type: request.body.type
+    }
+    singleOwner.pets.push(newPet)
+    response.send(owners)
 })
 // PUT /api/owners/:id/pets/:petId
 app.put('/api/owners/:id/pets/:petId', function (request, response, next) {
+    // find the owner from the array
+    // return the user's pets
+    // from the user's pets, find the corresponding petId
+    // once there is a match, set the value = body
     
 })
 // DELETE /api/owners/:id/pets/:petId
