@@ -59,7 +59,13 @@ app.get('/api/owners/:id', function (request, response, next) {
 
 // POST /api/owners
 app.post('/api/owners', function (request, response, next) {
-
+    const newOwner = {
+            id: owners.length + 1,
+            name: request.body.name,
+            pets: null
+    }
+    owners.push(newOwner)
+    response.send(owners)
 })
 
 // PUT /api/owners/:id
