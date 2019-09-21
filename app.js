@@ -144,7 +144,22 @@ app.put('/api/owners/:id/pets/:petId', function (request, response, next) {
 })
 // DELETE /api/owners/:id/pets/:petId
 app.delete('/api/owners/:id/pets/:petId', function (request, response, next) {
-    
+    const singleOwner = owners.find(function (owner) {
+        return owner.id === parseInt(request.params.id)
+    })
+    if (!singleOwner) {
+        return response.status(404).send('The query you entered is not valid. Please try again.')
+    }
+    let singleOwnerIndex = owners.indexOf(singleOwner)
+    let singleOwnerPets = owners[singleOwnerIndex].pets
+    const singlePet = singleOwnerPets.find(function (pet) {
+        return pet.id === parseInt(request.params.petId)
+    })
+    // response.send(singlePet)
+    // petList.splice(index,1)
+    let index = singleOwnerPets.indexOf(singlePet)
+    singleOwnerPets.splice(index, 1)
+    response.send(singleOwnerPets)
 })
 
 
