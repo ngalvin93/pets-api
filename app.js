@@ -70,30 +70,17 @@ app.post('/api/owners', function (request, response, next) {
 
 // PUT /api/owners/:id
 app.put('/api/owners/:id', function (request, response, next) {
-    const newOwner = {
-        id: owners.length + 1,
-        name: request.body.name,
-        pets: [
-            {
-                id: 1,
-                name: request.body[2].name,
-                type: request.body[2].type,
-            },
-            {
-                id: 2,
-                name: "Felix",
-                type: "Cat"
-            }
-        ]
-    }
-    
+    // const newOwner = {
+    //     name: request.body.name
+    // }    
     const singleOwner = owners.find(function (owner) {
         return owner.id === parseInt(request.params.id)
     })
     if (!singleOwner) {
         return response.status(404).send('The query you entered is not valid. Please try again.')
     }
-
+    singleOwner.name = request.body.name
+    response.send(owners)
 })
 
 // DELETE /api/owners/:id
