@@ -55,7 +55,6 @@ app.get('/api/owners/:id', function (request, response, next) {
         return response.status(404).send('The query you entered is not valid. Please try again.')
     }
     response.send(singleOwner)
-    next()
 })
 
 // POST /api/owners
@@ -106,7 +105,17 @@ app.delete('/api/owners/:id', function (request, response, next) {
 
 // GET /api/owners/:id/pets
 app.get('/api/owners/:id/pets', function (request, response, next) {
-
+    // find the owner
+    const singleOwner = owners.find(function (owner) {
+        return owner.id === parseInt(request.params.id)
+    })
+    if (!singleOwner) {
+        return response.status(404).send('The query you entered is not valid. Please try again.')
+    }
+    // find index of owner in owners array
+    let singleOwnerIndex = owners.indexOf(singleOwner)
+    // return the owner's pets (owners[index].pets)
+    response.send(owners[singleOwnerIndex].pets)
 })
 // GET /api/owners/:id/pets/:petId
 app.get('/api/owners/:id/pets/:petId', function (request, response, next) {
