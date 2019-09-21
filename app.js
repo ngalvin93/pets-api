@@ -129,7 +129,13 @@ app.get('/api/owners/:id/pets/:petId', function (request, response, next) {
 })
 // POST /api/owners/:id/pets
 app.post('/api/owners/:id/pets', function (request, response, next) {
-    
+    // what will the user send in the body? pet id (auto gen), pet name and pet type
+    const singleOwner = owners.find(function (owner) {
+        return owner.id === parseInt(request.params.id)
+    })
+    if (!singleOwner) {
+        return response.status(404).send('The query you entered is not valid. Please try again.')
+    }
 })
 // PUT /api/owners/:id/pets/:petId
 app.put('/api/owners/:id/pets/:petId', function (request, response, next) {
