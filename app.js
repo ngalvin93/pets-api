@@ -146,11 +146,30 @@ app.post('/api/owners/:id/pets', function (request, response, next) {
 })
 // PUT /api/owners/:id/pets/:petId
 app.put('/api/owners/:id/pets/:petId', function (request, response, next) {
-    // find the owner from the array
-    // return the user's pets
-    // from the user's pets, find the corresponding petId
-    // once there is a match, set the value = body
-    
+    let ownerId = request.params.id
+    let petId = request.params.petId
+    const singleOwner = owners.find(function (owner) {
+        return owner.id === parseInt(ownerId)
+    })
+    if (!singleOwner) {
+        return response.status(404).send('The query you entered is not valid. Please try again.')
+    }
+    const singleOwnerPets = singleOwner.pets
+    const singlePet = singleOwnerPets.find(function (pet) {
+        return pet.id === parseInt(petId)
+    })
+    if (!request.body.name && request.body.type) {
+        console.log('no name but type exists')
+        singlePet.type = request.body.type
+    } else if (request.body.name && !request.body.type) {
+        console.log('name exists but no type')
+        singlePet.name = request.body.name
+    } else if (request.body.name && request.body.type) {
+        console.log('both')
+        singlePet.type = request.body.type
+        singlePet.name = request.body.name
+    }
+    response.send(singlePet)
 })
 // DELETE /api/owners/:id/pets/:petId
 app.delete('/api/owners/:id/pets/:petId', function (request, response, next) {
@@ -171,7 +190,6 @@ app.delete('/api/owners/:id/pets/:petId', function (request, response, next) {
     singleOwnerPets.splice(index, 1)
     response.send(singleOwnerPets)
 })
-
 
 // LISTEN
 app.listen(port, function () {
