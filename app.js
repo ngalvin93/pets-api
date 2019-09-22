@@ -62,7 +62,7 @@ app.post('/api/owners', function (request, response, next) {
     const newOwner = {
             id: owners.length + 1,
             name: request.body.name,
-            pets: null
+            pets: []
     }
     owners.push(newOwner)
     response.send(owners)
@@ -159,13 +159,13 @@ app.put('/api/owners/:id/pets/:petId', function (request, response, next) {
         return pet.id === parseInt(petId)
     })
     if (!request.body.name && request.body.type) {
-        console.log('no name but type exists')
+        //console.log('no name but type exists')
         singlePet.type = request.body.type
     } else if (request.body.name && !request.body.type) {
-        console.log('name exists but no type')
+        //console.log('name exists but no type')
         singlePet.name = request.body.name
     } else if (request.body.name && request.body.type) {
-        console.log('both')
+        //console.log('both')
         singlePet.type = request.body.type
         singlePet.name = request.body.name
     }
